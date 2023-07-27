@@ -8,9 +8,7 @@ require (
 	github.com/sirupsen/logrus v1.9.3
 )
 
-retract (
-	v1.0.0
-)
+retract v1.0.0
 
 require (
 	github.com/bytedance/sonic v1.9.1 // indirect

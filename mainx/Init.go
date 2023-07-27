@@ -4,7 +4,7 @@ import (
 	"log"
 	"time"
 
-	logx "github.com/Natchalit/gin-x/src/logx"
+	logx "github.com/Natchalit/gin-x/logx"
 )
 
 // init ทั้งหมด
