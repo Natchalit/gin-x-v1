@@ -3,8 +3,8 @@ package authx
 import (
 	"net/http"
 
-	"github.com/Natchalit/gin-x/src/errorx"
-	"github.com/Natchalit/gin-x/src/validx"
+	"github.com/Natchalit/gin-x/errorx"
+	"github.com/Natchalit/gin-x/validx"
 )
 
 func ValidEmptyToken(token string) error {

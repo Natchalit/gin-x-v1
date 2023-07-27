@@ -8,8 +8,8 @@ import (
 	"net/http"
 	"runtime/debug"
 
-	"github.com/Natchalit/gin-x/src/errorx"
-	logx "github.com/Natchalit/gin-x/src/logx"
+	"github.com/Natchalit/gin-x/errorx"
+	logx "github.com/Natchalit/gin-x/logx"
 	"github.com/gin-gonic/gin"
 )
 
