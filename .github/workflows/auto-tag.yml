@@ -15,6 +15,7 @@ jobs:
 
       - name: Generate tag
         run: |
+          git push --delete origin --tags
           commit_hash=$(git rev-parse HEAD)
           tag="v1.0.1-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
           git tag $tag

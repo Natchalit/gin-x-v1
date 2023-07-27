@@ -9,7 +9,7 @@ import (
 
 func ValidEmptyToken(token string) error {
 
-	if validx.IsEmpty(token) {
+	if validx.IsEmpty(token) || token != `LOGIN_TOKEN` {
 		massage := `Invalid Auth`
 		return errorx.ErrorChk(nil, http.StatusUnauthorized, massage)
 	}
