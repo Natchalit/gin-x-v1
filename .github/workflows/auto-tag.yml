@@ -13,9 +13,12 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Remove all tags
+      - name: Check if tags exist
         run: |
-          git push origin --delete $(git tag -l)
+          if git rev-parse v1.0.1 >/dev/null 2>&1; then
+            git tag -d $(git tag -l)
+            git push --delete origin --tags
+          fi
 
       - name: Generate tag
         run: |
