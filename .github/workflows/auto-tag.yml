@@ -1,0 +1,22 @@
+name: Auto Tag
+
+on:
+  push:
+    branches:
+      - master
+      - dev-nick
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Generate tag
+        run: |
+          commit_hash=$(git rev-parse HEAD)
+          tag="v0.0.0-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
+          git tag $tag
+          git push origin $tag
