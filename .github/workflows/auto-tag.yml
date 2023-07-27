@@ -13,15 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Delete existing tags
-        if: steps.check_tags.outputs.tag_count > 0
-        run: |
-          git tag -d $(git tag -l v1.0.1*)
-          git push --delete origin $(git tag -l v1.0.1*)
-
-      - name: Generate sub tag v1.0.1
+      - name: Generate sub tag v1.0.2
         run: |
           commit_hash=$(git rev-parse HEAD)
-          tag="v1.0.1-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
+          tag="v1.0.2-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
           git tag $tag
           git push origin $tag
