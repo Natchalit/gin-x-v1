@@ -1,21 +1,21 @@
-name: Auto Tag
+# name: Auto Tag
 
-on:
-  push:
-    branches:
-      - master
+# on:
+#   push:
+#     branches:
+#       - master
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v2
 
-      - name: Generate sub tag v1.0.2
-        run: |
-          commit_hash=$(git rev-parse HEAD)
-          tag="v1.0.2-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
-          git tag $tag
-          git push origin $tag
+#       - name: Generate sub tag v1.0.2
+#         run: |
+#           commit_hash=$(git rev-parse HEAD)
+#           tag="v1.0.2-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
+#           git tag $tag
+#           git push origin $tag
