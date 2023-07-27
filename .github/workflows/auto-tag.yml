@@ -11,7 +11,7 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: Natchalit/gin-x@master
+        uses: actions/checkout@v2
 
       - name: Generate tag
         run: |
