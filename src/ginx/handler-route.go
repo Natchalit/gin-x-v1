@@ -9,7 +9,7 @@ import (
 	"runtime/debug"
 
 	"github.com/Natchalit/gin-x/src/errorx"
-	logx "github.com/Natchalit/gin-x/src/log-x"
+	logx "github.com/Natchalit/gin-x/src/logx"
 	"github.com/gin-gonic/gin"
 )
 
