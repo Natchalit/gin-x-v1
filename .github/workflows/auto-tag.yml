@@ -4,7 +4,6 @@ on:
   push:
     branches:
       - master
-      - dev-nick
 
 jobs:
   build:
@@ -17,6 +16,6 @@ jobs:
       - name: Generate tag
         run: |
           commit_hash=$(git rev-parse HEAD)
-          tag="v0.0.0-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
+          tag="v1.0.0-$(date +'%Y%m%d%H%M%S')-${commit_hash}"
           git tag $tag
           git push origin $tag
