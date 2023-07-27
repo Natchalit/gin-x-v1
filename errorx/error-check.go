@@ -13,7 +13,7 @@ func ErrorChk(c *gin.Context, statusCode int, f string, a ...any) error {
 		Message: fmt.Sprintf(f, a...),
 	}
 
-	if c == nil {
+	if c != nil {
 		ex.StatusCode = c.Writer.Status()
 		ex.ClientIP = c.ClientIP()
 		ex.Method = c.Request.Method
