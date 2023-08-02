@@ -2,7 +2,6 @@ package ginx
 
 import (
 	"net/http"
-	"path/filepath"
 	"time"
 
 	"github.com/gin-gonic/gin"
@@ -14,10 +13,10 @@ func (rgx *RTX) Connect(routerx func(*RGX, *gin.RouterGroup)) {
 	gin.ForceConsoleColor()
 	router := gin.New()
 
-	router.Static("/css", "src/templates/css")
-	templatesFolder := filepath.Join("src/templates", "**", "*.html")
+	// router.Static("/css", "src/templates/css")
+	// templatesFolder := filepath.Join("src/templates", "**", "*.html")
 
-	router.LoadHTMLGlob(templatesFolder)
+	// router.LoadHTMLGlob(templatesFolder)
 
 	router.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		SkipPaths: []string{"/"},
