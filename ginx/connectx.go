@@ -21,7 +21,7 @@ func (rgx *RTX) Connect(routerx func(*RGX, *gin.RouterGroup)) {
 		SkipPaths: []string{"/"},
 	}))
 
-	router.Use(UseHeader)
+	// router.Use(UseHeader)
 	router.Use(gin.Recovery())
 
 	rx.Router = router
