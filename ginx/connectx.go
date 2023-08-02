@@ -8,15 +8,14 @@ import (
 )
 
 func (rgx *RTX) Connect(routerx func(*RGX, *gin.RouterGroup)) {
-	rx := RGX{}
+	rx := RGX{
+		TemplatesFolder: "",
+		RelativePath:    "",
+		Root:            "",
+	}
 	// c := gin.Default()
 	gin.ForceConsoleColor()
 	router := gin.New()
-
-	// router.Static("/css", "src/templates/css")
-	// templatesFolder := filepath.Join("src/templates", "**", "*.html")
-
-	// router.LoadHTMLGlob(templatesFolder)
 
 	router.Use(gin.LoggerWithConfig(gin.LoggerConfig{
 		SkipPaths: []string{"/"},

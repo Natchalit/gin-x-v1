@@ -8,8 +8,11 @@ type RTX struct {
 }
 
 type RGX struct {
-	SRV    string
-	Router *gin.Engine
+	SRV             string
+	Router          *gin.Engine
+	TemplatesFolder string
+	RelativePath    string
+	Root            string
 }
 
 func (rx *RGX) _HandlerX(g *gin.RouterGroup, relativePath string, onWorkerX func(*Context) (any, error), handlers ...gin.HandlerFunc) []gin.HandlerFunc {
