@@ -9,7 +9,7 @@ func ToPascal(input string) string {
 	// Convert to PascalCase using regex
 	re := regexp.MustCompile(`(?:^|_)([a-zA-Z])`)
 	pascalCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
-		return strings.ToUpper(string(s[1]))
+		return strings.ToUpper(string(s[0]))
 	})
 	return pascalCaseStr
 }
@@ -33,7 +33,7 @@ func SnakeToPascal(input string) string {
 func ConstantToPascal(input string) string {
 	re := regexp.MustCompile(`_([a-zA-Z0-9])`)
 	pascalCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
-		return string(s[1] - 'a' + 'A')
+		return string(s[0] - 'a' + 'A')
 	})
 	return pascalCaseStr
 }
