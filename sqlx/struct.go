@@ -2,7 +2,7 @@ package sqlx
 
 import "database/sql"
 
-type Map = map[string]any
+type Map map[string]any
 
 type Sqlx struct {
 	Db *sql.DB
@@ -18,3 +18,5 @@ type Row struct {
 	Columns     []string     `json:"columns"`
 	ColumnTypes []ColumnType `json:"columns_type"`
 }
+
+type ValidationCallback func(row Map) error

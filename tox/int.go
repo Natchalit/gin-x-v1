@@ -20,6 +20,17 @@ func Int(n interface{}) int {
 	return int(*pc)
 }
 
+func IntPtr(n interface{}) *int {
+	pc := ProcessConvertIntPtr(n)
+	if pc == nil {
+		return &INT
+	}
+
+	pcx := int(*pc)
+
+	return &pcx
+}
+
 func Int32(n interface{}) int32 {
 	pc := ProcessConvertIntPtr(n)
 	if pc == nil {
@@ -37,7 +48,7 @@ func Int64(n interface{}) int64 {
 	return *pc
 }
 
-func IntPtr(n interface{}) *int64 {
+func IntPtr64(n interface{}) *int64 {
 	pc := ProcessConvertIntPtr(n)
 	if pc == nil {
 		return &INT64
