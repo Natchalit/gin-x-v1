@@ -6,5 +6,9 @@ import (
 )
 
 func Cars() (*sqlx.Sqlx, error) {
-	return connections.ConnectionSql(`dev_liyl`)
+	res, ex := connections.ConnectionSql(`dev_liyl`)
+	if ex != nil {
+		return nil, ex
+	}
+	return res, nil
 }
