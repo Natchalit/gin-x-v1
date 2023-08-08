@@ -10,6 +10,7 @@ import (
 
 	"github.com/Natchalit/gin-x-v1/errorx"
 	"github.com/Natchalit/gin-x-v1/logx"
+	"github.com/Natchalit/gin-x-v1/validx"
 	"github.com/gin-gonic/gin"
 )
 
@@ -68,33 +69,33 @@ func (r *RGX) _Handler(c *gin.Context, onWorkerX func(*Context) (any, error)) (h
 	rx, ex := onWorkerX(ctx)
 	if ex != nil {
 
-		// isNilResponse := validx.IsNil(rx)
-		// if !isNilResponse {
-		// 	hr.ResponseBody = rx
-		// }
-		// if v, ok := ex.(*errorx.EX); ok {
-		// 	if v != nil {
-		// 		respError = v.Message
-		// 		if isNilResponse {
-		// 			hr.ResponseBody = v
-		// 		}
-		// 		if v.StatusCode == 0 {
-		// 			hr.StatusCode = http.StatusInternalServerError
-		// 		} else {
-		// 			hr.StatusCode = v.StatusCode
-		// 		}
-		// 	}
-		// } else {
-		// 	respError = ex.Error()
-		// 	if isNilResponse {
-		// 		hr.ResponseBody = errorx.ErrorC(c, http.StatusInternalServerError, ex.Error())
-		// 	}
-		// 	if hr.StatusCode == 0 {
-		// 		hr.StatusCode = http.StatusInternalServerError
-		// 	} else {
-		// 		hr.StatusCode = v.StatusCode
-		// 	}
-		// }
+		isNilResponse := validx.IsNil(rx)
+		if !isNilResponse {
+			hr.ResponseBody = rx
+		}
+		if v, ok := ex.(*errorx.EX); ok {
+			if v != nil {
+				respError = v.Message
+				if isNilResponse {
+					hr.ResponseBody = v
+				}
+				if v.StatusCode == 0 {
+					hr.StatusCode = http.StatusInternalServerError
+				} else {
+					hr.StatusCode = v.StatusCode
+				}
+			}
+		} else {
+			respError = ex.Error()
+			if isNilResponse {
+				hr.ResponseBody = errorx.ErrorChk(c, http.StatusInternalServerError, ex.Error())
+			}
+			if hr.StatusCode == 0 {
+				hr.StatusCode = http.StatusInternalServerError
+			} else {
+				hr.StatusCode = v.StatusCode
+			}
+		}
 
 	} else if rx != nil {
 		if rc, ok := rx.(*_RC); ok {
