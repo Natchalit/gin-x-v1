@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/Natchalit/gin-x-v1/ginx"
 	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
@@ -20,7 +21,7 @@ func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
 	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s", PG_USER, PG_PASS, PG_HOST, dbName)
 	db, ex := sql.Open("postgres", connStr)
 	if ex != nil {
-		return nil, ex
+		return nil, ginx.InternalServerError(`can not connect Postgres [%v]`, ex)
 	}
 	defer db.Close()
 
