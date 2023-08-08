@@ -72,29 +72,29 @@ func (r *RGX) _Handler(c *gin.Context, onWorkerX func(*Context) (any, error)) (h
 		// if !isNilResponse {
 		// 	hr.ResponseBody = rx
 		// }
-		// if v, ok := ex.(*errorx.EX); ok {
-		// 	if v != nil {
-		// 		respError = v.Message
-		// 		if isNilResponse {
-		// 			hr.ResponseBody = v
-		// 		}
-		// 		if v.StatusCode == 0 {
-		// 			hr.StatusCode = http.StatusInternalServerError
-		// 		} else {
-		// 			hr.StatusCode = v.StatusCode
-		// 		}
-		// 	}
-		// } else {
-		// 	respError = ex.Error()
-		// 	if isNilResponse {
-		// 		hr.ResponseBody = errorx.ErrorC(c, http.StatusInternalServerError, ex.Error())
-		// 	}
-		// 	if hr.StatusCode == 0 {
-		// 		hr.StatusCode = http.StatusInternalServerError
-		// 	} else {
-		// 		hr.StatusCode = v.StatusCode
-		// 	}
-		// }
+		if v, ok := ex.(*errorx.EX); ok {
+			if v != nil {
+				respError = v.Message
+				// if isNilResponse {
+				// 	hr.ResponseBody = v
+				// }
+				if v.StatusCode == 0 {
+					hr.StatusCode = http.StatusInternalServerError
+				} else {
+					hr.StatusCode = v.StatusCode
+				}
+			}
+		} else {
+			respError = ex.Error()
+			// if isNilResponse {
+			// 	hr.ResponseBody = errorx.ErrorC(c, http.StatusInternalServerError, ex.Error())
+			// }
+			if hr.StatusCode == 0 {
+				hr.StatusCode = http.StatusInternalServerError
+			} else {
+				hr.StatusCode = v.StatusCode
+			}
+		}
 
 	} else if rx != nil {
 		if rc, ok := rx.(*_RC); ok {
