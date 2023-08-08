@@ -88,3 +88,21 @@ func (m *Map) BoolPtr(col string) *bool {
 
 	return tox.BoolPtr(m.getCase(col))
 }
+
+func DataMapToRow(mapData []map[string]interface{}) *Row {
+	dm := Row{}
+	chkDm := map[string]bool{}
+	for k, element := range mapData {
+		dm.Rows = append(dm.Rows, element)
+		if k == 0 {
+			for k := range mapData[0] {
+				if !chkDm[k] {
+					chkDm[k] = true
+					dm.Columns = append(dm.Columns, k)
+				}
+			}
+		}
+	}
+
+	return &dm
+}
