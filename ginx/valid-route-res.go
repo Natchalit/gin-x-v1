@@ -38,12 +38,15 @@ func (r *RGX) _ValidRouteRes(onWorkerX func(*Context) (any, error)) []gin.Handle
 					}
 				}
 			} else {
-				res := hr.ResponseBody.(map[string]interface{})
-				if res[`isWeb`].(bool) {
-					path := res[`path`].(*string)
-					ctx.HTML(hr.StatusCode, *path, res[`data`])
+				if res, ok := hr.ResponseBody.(map[string]interface{}); ok {
+					if res[`isWeb`].(bool) {
+						path := res[`path`].(*string)
+						ctx.HTML(hr.StatusCode, *path, res[`data`])
+					} else {
+						ctx.JSON(hr.StatusCode, res[`data`])
+					}
 				} else {
-					ctx.JSON(hr.StatusCode, res[`data`])
+					ctx.JSON(hr.StatusCode, hr.ResponseBody)
 				}
 			}
 		}
