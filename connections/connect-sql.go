@@ -6,6 +6,7 @@ import (
 
 	"github.com/Natchalit/gin-x-v1/ginx"
 	"github.com/Natchalit/gin-x-v1/sqlx"
+	_ "github.com/lib/pq"
 )
 
 func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
