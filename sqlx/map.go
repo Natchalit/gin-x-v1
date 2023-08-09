@@ -96,9 +96,13 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 		dm.Rows = append(dm.Rows, element)
 		if k == 0 {
 			for k := range mapData[0] {
-				if !chkDm[k] && k != `x0` {
+				k = caseconvert.ToSnake(k)
+				if k == `x0` {
+					continue
+				}
+				if !chkDm[k] {
 					chkDm[k] = true
-					dm.Columns = append(dm.Columns, caseconvert.ToSnake(k))
+					dm.Columns = append(dm.Columns, k)
 				}
 			}
 		}
