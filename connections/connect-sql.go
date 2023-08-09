@@ -15,11 +15,15 @@ func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
 	PG_USER := `devnick`
 	PG_PASS := `8FqDPl1daJCIyMffVWbzx9xC7sHl6dZt`
 	PG_HOST := `dpg-cj85ijdjeehc73a6d9hg-a.singapore-postgres.render.com`
-	// PG_PORT := `5432`
-	// DATABASE := `dev_liyl`
+	PG_PORT := `5432`
 
-	connStr := fmt.Sprintf("postgres://%s:%s@%s/%s", PG_USER, PG_PASS, PG_HOST, dbName)
-	db, ex := sql.Open("postgres", connStr)
+	// Open a database connection
+
+	dsn := fmt.Sprintf(
+		`host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=UTC`,
+		PG_HOST, PG_USER, PG_PASS, dbName, PG_PORT,
+	)
+	db, ex := sql.Open("postgres", dsn)
 	if ex != nil {
 		return nil, ginx.InternalServerError(`can not connect Postgres [%v]`, ex)
 	}
