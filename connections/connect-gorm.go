@@ -11,13 +11,13 @@ import (
 func ConnectionGorm(dbName string) (*gorm.DB, error) {
 
 	PG_HOST := getenv.Get(`PG_HOST`)
-	PG_PORT := getenv.Get(`PG_PORT`)
+	// PG_PORT := getenv.Get(`PG_PORT`)
 	PG_USER := getenv.Get(`PG_USER`)
 	PG_PASS := getenv.Get(`PG_PASS`)
 
 	dsn := fmt.Sprintf(
-		`host=%v user=%v password=%v dbname=%v port=%v TimeZone=UTC`,
-		PG_HOST, PG_USER, PG_PASS, dbName, PG_PORT,
+		`postgres://%s:%s@%s/%s`,
+		PG_USER, PG_PASS, PG_HOST, dbName,
 	)
 
 	db, err := gorm.Open(postgres.New(postgres.Config{
