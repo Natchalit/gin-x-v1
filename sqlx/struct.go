@@ -6,7 +6,7 @@ import (
 
 type Map map[string]any
 
-type Sqlx struct {
+type DB struct {
 	Db *sql.DB
 }
 

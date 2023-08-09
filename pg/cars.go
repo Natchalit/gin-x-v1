@@ -5,7 +5,7 @@ import (
 	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
-func Cars() (*sqlx.Sqlx, error) {
+func Cars() (*sqlx.DB, error) {
 	res, ex := connections.ConnectionSql(`dev_liyl`)
 	if ex != nil {
 		return nil, ex

@@ -20,7 +20,7 @@ import (
 		col5 = EXCLUDED.col5;
 */
 
-func (db *Sqlx) UpSertBatch(table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
+func (db *DB) UpSertBatch(table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
 	defer db.Db.Close()
 
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))

@@ -1,23 +1,23 @@
 package connections
 
 import (
-	"database/sql"
 	"fmt"
 
 	_ "github.com/lib/pq"
 
-	"github.com/Natchalit/gin-x-v1/ginx"
+	getenv "github.com/Natchalit/gin-x-v1/get-env"
 	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
-func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
+var ()
 
+func ConnectionSql(dbName string) (*sqlx.DB, error) {
 	// postgres://devnick:8FqDPl1daJCIyMffVWbzx9xC7sHl6dZt@dpg-cj85ijdjeehc73a6d9hg-a.singapore-postgres.render.com/dev_liyl
 
-	PG_USER := `devnick`
-	PG_PASS := `8FqDPl1daJCIyMffVWbzx9xC7sHl6dZt`
-	PG_HOST := `dpg-cj85ijdjeehc73a6d9hg-a.singapore-postgres.render.com`
-	PG_PORT := `5432`
+	PG_USER := getenv.Get(`PG_USER`)
+	PG_PASS := getenv.Get(`PG_PASS`)
+	PG_HOST := getenv.Get(`PG_HOST`)
+	PG_PORT := getenv.Get(`PG_PORT`)
 
 	// Open a database connection
 
@@ -25,12 +25,5 @@ func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
 		`host=%v user=%v password=%v dbname=%v port=%v TimeZone=UTC`,
 		PG_HOST, PG_USER, PG_PASS, dbName, PG_PORT,
 	)
-	db, ex := sql.Open("postgres", dsn)
-	if ex != nil {
-		return nil, ginx.InternalServerError(`can not connect Postgres [%v]`, ex)
-	}
-
-	return &sqlx.Sqlx{
-		Db: db,
-	}, nil
+	return sqlx.Connectx(dbName, dsn)
 }

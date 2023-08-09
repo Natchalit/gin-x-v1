@@ -7,7 +7,7 @@ import (
 	"github.com/Natchalit/gin-x-v1/logx"
 )
 
-func (db *Sqlx) QueryScan(query string, args ...any) (*Row, error) {
+func (db *DB) QueryScan(query string, args ...any) (*Row, error) {
 
 	defer db.Db.Close()
 
