@@ -22,7 +22,7 @@ func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
 	// Open a database connection
 
 	dsn := fmt.Sprintf(
-		`host=%v user=%v password=%v dbname=%v port=%v sslmode=disable TimeZone=UTC`,
+		`host=%v user=%v password=%v dbname=%v port=%v TimeZone=UTC`,
 		PG_HOST, PG_USER, PG_PASS, dbName, PG_PORT,
 	)
 	db, ex := sql.Open("postgres", dsn)
