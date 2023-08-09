@@ -98,7 +98,7 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 			for k := range mapData[0] {
 				if !chkDm[k] {
 					chkDm[k] = true
-					dm.Columns = append(dm.Columns, k)
+					dm.Columns = append(dm.Columns, caseconvert.ToSnake(k))
 				}
 			}
 		}
