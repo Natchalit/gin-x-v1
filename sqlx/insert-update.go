@@ -20,20 +20,11 @@ import (
 		col5 = EXCLUDED.col5;
 */
 
-func (db *Sqlx) UpSert(table string, r *Row, conflict []string, Callback ValidationCallback) (*[]sql.Result, error) {
-
+func (db *Sqlx) UpSertBatch(table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
 	defer db.Db.Close()
 
-	if Callback != nil {
-		for _, row := range r.Rows {
-			if err := Callback(row); err != nil {
-				return nil, err
-			}
-		}
-	}
-
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
-	con_confilct := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
+	con_conflict := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
 
 	excluded := ``
 	for i, col := range r.Columns {
@@ -44,44 +35,57 @@ func (db *Sqlx) UpSert(table string, r *Row, conflict []string, Callback Validat
 	}
 
 	val := ``
-	args := []interface{}{}
-	for i, vRow := range r.Rows {
-		cols := len(vRow)
-		buff := make([]string, cols)
+	resultx := []sql.Result{} // Slice to store results
 
-		for i := 1; i <= cols; i++ {
-			buff[i-1] = fmt.Sprintf(`$%d`, i)
-			args = append(args, vRow[r.Columns[i-1]])
+	rows := r.Rows
+	totalRows := len(rows)
+	for i := 0; i < totalRows; i += int(batchSize) {
+		end := i + int(batchSize)
+		if end > totalRows {
+			end = totalRows
 		}
 
-		val += fmt.Sprintf(`(%s)`, strings.Join(buff, `,`))
+		batchRows := rows[i:end]
 
-		i += 1
-		if i < len(r.Rows) {
-			val += `,`
+		val = "" // Reset val for each batch
+		args := []interface{}{}
+
+		for _, vRow := range batchRows {
+			cols := len(vRow)
+			buff := make([]string, cols)
+
+			for i := 1; i <= cols; i++ {
+				buff[i-1] = fmt.Sprintf(`$%d`, i)
+				args = append(args, vRow[r.Columns[i-1]])
+			}
+
+			val += fmt.Sprintf(`(%s)`, strings.Join(buff, `,`))
+
+			if i < len(batchRows)-1 {
+				val += ","
+			}
 		}
+
+		query := fmt.Sprintf(`
+            INSERT INTO %s %s
+            VALUES %s
+            ON CONFLICT %s
+            DO UPDATE SET 
+                %s`,
+			table,
+			insertCol,
+			val,
+			con_conflict,
+			excluded)
+
+		fmt.Println(query)
+		result, ex := db.Db.Exec(query, args...)
+		if ex != nil {
+			return nil, ex
+		}
+
+		resultx = append(resultx, result)
 	}
-
-	query := fmt.Sprintf(`
-			INSERT INTO %s %s
-			VALUES %s
-			ON CONFLICT %s
-			DO UPDATE SET 
-				%s`,
-		table,
-		insertCol,
-		val,
-		con_confilct,
-		excluded)
-
-	fmt.Println(query)
-	result, ex := db.Db.Exec(query, args...)
-	if ex != nil {
-		return nil, ex
-	}
-
-	resultx := []sql.Result{}
-	resultx = append(resultx, result)
 
 	return &resultx, nil
 }

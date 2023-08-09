@@ -115,6 +115,10 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 		}
 	}
 
+	for _, element := range dm.Rows {
+		element.DeleteKey(`x0`)
+	}
+
 	return &dm
 }
 
