@@ -1,6 +1,8 @@
 package sqlx
 
-import "database/sql"
+import (
+	"database/sql"
+)
 
 type Map map[string]any
 

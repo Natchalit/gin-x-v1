@@ -1,9 +1,16 @@
 package sqlx
 
 import (
+	"strings"
+	"sync"
+
 	caseconvert "github.com/Natchalit/gin-x-v1/case-convert"
 	"github.com/Natchalit/gin-x-v1/tox"
 	"github.com/Natchalit/gin-x-v1/validx"
+)
+
+var (
+	_LockMap = &sync.Mutex{}
 )
 
 func (m *Map) getCase(col string) interface{} {
@@ -109,4 +116,17 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 	}
 
 	return &dm
+}
+
+func (s *Map) DeleteKey(key string) {
+	if s == nil {
+		return
+	}
+	_LockMap.Lock()
+	defer _LockMap.Unlock()
+	for k := range *s {
+		if strings.EqualFold(k, key) {
+			delete(*s, k)
+		}
+	}
 }
