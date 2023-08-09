@@ -8,6 +8,7 @@ import (
 func ToSnake(input string) string {
 	// Convert to snake_case using regex
 	re := regexp.MustCompile(`[A-Z]`)
+	input = strings.ReplaceAll(input, ` `, ``)
 	snakeCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
 		return "_" + strings.ToLower(s)
 	})

@@ -8,6 +8,7 @@ import (
 func ToConstant(input string) string {
 	// Convert to CONSTANT_CASE using regex
 	re := regexp.MustCompile(`[a-zA-Z]`)
+	input = strings.ReplaceAll(input, ` `, ``)
 	constantCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
 		return strings.ToUpper(s)
 	})

@@ -8,6 +8,7 @@ import (
 func ToPascal(input string) string {
 	// Convert to PascalCase using regex
 	re := regexp.MustCompile(`(?:^|_)([a-zA-Z])`)
+	input = strings.ReplaceAll(input, ` `, ``)
 	pascalCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
 		return strings.ToUpper(string(s[0]))
 	})

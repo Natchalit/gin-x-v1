@@ -32,6 +32,7 @@ func SnakeToCamel(input string) string {
 
 func ConstantToCamel(input string) string {
 	re := regexp.MustCompile(`_([a-zA-Z0-9])`)
+	input = strings.ReplaceAll(input, ` `, ``)
 	camelCaseStr := re.ReplaceAllStringFunc(input, func(s string) string {
 		return string(s[0] - 'a' + 'A')
 	})
