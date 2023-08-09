@@ -122,15 +122,57 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 	return &dm
 }
 
-func (s *Map) DeleteKey(key string) {
-	if s == nil {
+func (m *Map) Set(col string, val any) {
+	if m != nil {
+		m.setCase(col, val)
+	}
+}
+
+func (s *Map) setCase(col string, val any) {
+	_LockMap.Lock()
+	defer _LockMap.Unlock()
+	// หาตามชื่อคอลัมล์ case-sensitivity.
+	if _, ok := (*s)[col]; ok {
+		(*s)[col] = val
+		return
+	}
+	// หาตามชื่อคอลัมล์ case-lower
+	colLower := strings.ToLower(col)
+	if colLower != col {
+		if _, ok := (*s)[colLower]; ok {
+			(*s)[colLower] = val
+			return
+		}
+	}
+	// หาตามชื่อคอลัมล์ case-upper
+	colUpper := strings.ToUpper(col)
+	if colUpper != col {
+		if _, ok := (*s)[colUpper]; ok {
+			(*s)[colUpper] = val
+			return
+		}
+	}
+	// SnakeCase
+	colSnake := caseconvert.ToSnake(col)
+	if colSnake != col && colSnake != colLower {
+		if _, ok := (*s)[colSnake]; ok {
+			(*s)[colSnake] = val
+			return
+		}
+	}
+	// เพิ่มคอลัมล์
+	(*s)[col] = val
+}
+
+func (m *Map) DeleteKey(key string) {
+	if m == nil {
 		return
 	}
 	_LockMap.Lock()
 	defer _LockMap.Unlock()
-	for k := range *s {
+	for k := range *m {
 		if strings.EqualFold(k, key) {
-			delete(*s, k)
+			delete(*m, k)
 		}
 	}
 }
