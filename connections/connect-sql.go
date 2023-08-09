@@ -29,7 +29,6 @@ func ConnectionSql(dbName string) (*sqlx.Sqlx, error) {
 	if ex != nil {
 		return nil, ginx.InternalServerError(`can not connect Postgres [%v]`, ex)
 	}
-	defer db.Close()
 
 	return &sqlx.Sqlx{
 		Db: db,

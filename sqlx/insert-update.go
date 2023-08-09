@@ -22,6 +22,8 @@ import (
 
 func (db *Sqlx) UpSert(table string, r *Row, conflict []string, Callback ValidationCallback) (*[]sql.Result, error) {
 
+	defer db.Db.Close()
+
 	if Callback != nil {
 		for _, row := range r.Rows {
 			if err := Callback(row); err != nil {
@@ -34,8 +36,11 @@ func (db *Sqlx) UpSert(table string, r *Row, conflict []string, Callback Validat
 	con_confilct := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
 
 	excluded := ``
-	for _, col := range r.Columns {
+	for i, col := range r.Columns {
 		excluded += fmt.Sprintf(`%s = EXCLUDED.%s`, col, col)
+		if i+1 < len(r.Columns) {
+			excluded += `,`
+		}
 	}
 
 	val := ``
@@ -52,7 +57,7 @@ func (db *Sqlx) UpSert(table string, r *Row, conflict []string, Callback Validat
 		val += fmt.Sprintf(`(%s)`, strings.Join(buff, `,`))
 
 		i += 1
-		if i < cols {
+		if i < len(r.Rows) {
 			val += `,`
 		}
 	}
