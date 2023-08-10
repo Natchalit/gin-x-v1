@@ -9,6 +9,12 @@ type Map map[string]any
 type DB struct {
 	Db *sql.DB
 }
+
+type Tx struct {
+	Tx *sql.Tx
+	Db *DB
+}
+
 type ColumnType struct {
 	Name             string `json:"name"`
 	DatabaseTypeName string `json:"database_type_name"`

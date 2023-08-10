@@ -9,9 +9,7 @@ import (
 	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
-var ()
-
-func ConnectionSql(dbName string) (*sqlx.DBX, error) {
+func ConPg(dbName string) (*sqlx.DBX, error) {
 	// postgres://devnick:8FqDPl1daJCIyMffVWbzx9xC7sHl6dZt@dpg-cj85ijdjeehc73a6d9hg-a.singapore-postgres.render.com/dev_liyl
 
 	PG_USER := getenv.Get(`PG_USER`)

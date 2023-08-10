@@ -8,7 +8,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func ConnectionGorm(dbName string) (*gorm.DB, error) {
+func ConGorm(dbName string) (*gorm.DB, error) {
 
 	PG_HOST := getenv.Get(`PG_HOST`)
 	PG_PORT := getenv.Get(`PG_PORT`)

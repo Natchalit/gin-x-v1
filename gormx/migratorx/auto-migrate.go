@@ -8,7 +8,7 @@ import (
 )
 
 func AutoMigrate(dbName string, dst ...any) error {
-	db, ex := connections.ConnectionGorm(dbName)
+	db, ex := connections.ConGorm(dbName)
 	if ex != nil {
 		return ex
 	}

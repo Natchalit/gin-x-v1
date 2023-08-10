@@ -6,5 +6,5 @@ import (
 
 type Connect struct {
 	db     *sql.DB
-	dbName string
+	DBName string
 }
