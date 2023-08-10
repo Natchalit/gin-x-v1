@@ -13,3 +13,7 @@ func Infof(format string, v ...any) {
 func Errorf(format string, v ...any) {
 	logrus.Errorf(format, v...)
 }
+
+func Warnf(format string, v ...any) {
+	logrus.Warnf(format, v...)
+}

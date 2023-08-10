@@ -21,8 +21,10 @@ import (
 */
 
 func (db *DB) UpSertBatch(table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
-	defer db.Db.Close()
+	return ExecUpSert(db.Db, table, r, conflict, batchSize)
+}
 
+func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
 	con_conflict := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
 
@@ -79,7 +81,7 @@ func (db *DB) UpSertBatch(table string, r *Row, conflict []string, batchSize uin
 			excluded)
 
 		fmt.Println(query)
-		result, ex := db.Db.Exec(query, args...)
+		result, ex := db.Exec(query, args...)
 		if ex != nil {
 			return nil, ex
 		}

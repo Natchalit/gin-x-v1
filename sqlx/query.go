@@ -16,10 +16,10 @@ func (db *DB) QueryScan(query string, args ...any) (*Row, error) {
 		return nil, ex
 	}
 
-	return scanData(rows)
+	return ScanData(rows)
 }
 
-func scanData(rows *sql.Rows) (*Row, error) {
+func ScanData(rows *sql.Rows) (*Row, error) {
 
 	defer rows.Close()
 
