@@ -7,5 +7,9 @@ import (
 )
 
 func (c *Connect) UpSertBatch(table string, r *sqlx.Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
+	if ex := c._Connect(); ex != nil {
+		return nil, ex
+	}
+
 	return sqlx.ExecUpSert(c.db, table, r, conflict, batchSize)
 }
