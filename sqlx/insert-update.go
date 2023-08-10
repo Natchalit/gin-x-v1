@@ -6,7 +6,6 @@ import (
 	"strings"
 
 	"github.com/Natchalit/gin-x-v1/ginx"
-	"github.com/Natchalit/gin-x-v1/stringx"
 )
 
 /*
@@ -35,10 +34,10 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 		return nil, ginx.BadRequest(`not found data`)
 	}
 
+	// recheck new columns
+	r.Columns = []string{}
 	for k := range rows[0] {
-		if !stringx.IsContain(r.Columns, k) {
-			r.Columns = append(r.Columns, k)
-		}
+		r.Columns = append(r.Columns, k)
 	}
 
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
