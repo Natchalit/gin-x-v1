@@ -78,7 +78,7 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 
 			val += fmt.Sprintf(`(%s)`, strings.Join(buff, `,`))
 
-			if i < len(batchRows)-1 {
+			if i+1 < len(batchRows)-1 {
 				val += ","
 			}
 		}
