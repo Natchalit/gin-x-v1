@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	"github.com/Natchalit/gin-x-v1/ginx"
 	"github.com/Natchalit/gin-x-v1/stringx"
 )
 
@@ -44,11 +45,13 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 
 	rows := r.Rows
 
-	for _, vRow := range rows {
-		for k := range vRow {
-			if !stringx.IsContain(r.Columns, k) {
-				r.Columns = append(r.Columns, k)
-			}
+	if vRow := rows[0]; vRow == nil {
+		return nil, ginx.BadRequest(`not found data`)
+	}
+
+	for k := range rows[0] {
+		if !stringx.IsContain(r.Columns, k) {
+			r.Columns = append(r.Columns, k)
 		}
 	}
 
