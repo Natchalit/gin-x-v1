@@ -100,7 +100,13 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 	dm := Row{}
 	chkDm := map[string]bool{}
 	for k, element := range mapData {
-		dm.Rows = append(dm.Rows, element)
+
+		buffVal := map[string]interface{}{}
+		for index, element := range element {
+			buffVal[caseconvert.ToSnake(index)] = element
+		}
+		dm.Rows = append(dm.Rows, buffVal)
+
 		if k == 0 {
 			for k := range mapData[0] {
 				k = caseconvert.ToSnake(k)
