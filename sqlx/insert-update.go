@@ -29,6 +29,18 @@ func (db *DB) UpSertBatch(table string, r *Row, conflict []string, batchSize uin
 
 func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
 
+	rows := r.Rows
+
+	if vRow := rows[0]; vRow == nil {
+		return nil, ginx.BadRequest(`not found data`)
+	}
+
+	for k := range rows[0] {
+		if !stringx.IsContain(r.Columns, k) {
+			r.Columns = append(r.Columns, k)
+		}
+	}
+
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
 	con_conflict := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
 
@@ -42,18 +54,6 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 
 	val := ``
 	resultx := []sql.Result{} // Slice to store results
-
-	rows := r.Rows
-
-	if vRow := rows[0]; vRow == nil {
-		return nil, ginx.BadRequest(`not found data`)
-	}
-
-	for k := range rows[0] {
-		if !stringx.IsContain(r.Columns, k) {
-			r.Columns = append(r.Columns, k)
-		}
-	}
 
 	totalRows := len(rows)
 	for i := 0; i < totalRows; i += int(batchSize) {
