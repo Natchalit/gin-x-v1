@@ -4,6 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 	"strings"
+
+	"github.com/Natchalit/gin-x-v1/stringx"
 )
 
 /*
@@ -25,6 +27,7 @@ func (db *DB) UpSertBatch(table string, r *Row, conflict []string, batchSize uin
 }
 
 func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize uint) (*[]sql.Result, error) {
+
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
 	con_conflict := fmt.Sprintf(`(%s)`, strings.Join(conflict, `,`))
 
@@ -40,6 +43,15 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 	resultx := []sql.Result{} // Slice to store results
 
 	rows := r.Rows
+
+	for _, vRow := range rows {
+		for k := range vRow {
+			if !stringx.IsContain(r.Columns, k) {
+				r.Columns = append(r.Columns, k)
+			}
+		}
+	}
+
 	totalRows := len(rows)
 	for i := 0; i < totalRows; i += int(batchSize) {
 		end := i + int(batchSize)
