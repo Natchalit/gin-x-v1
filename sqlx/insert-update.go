@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"strings"
 
+	caseconvert "github.com/Natchalit/gin-x-v1/case-convert"
 	"github.com/Natchalit/gin-x-v1/ginx"
 )
 
@@ -37,7 +38,7 @@ func ExecUpSert(db *sql.DB, table string, r *Row, conflict []string, batchSize u
 	// recheck new columns
 	r.Columns = []string{}
 	for k := range rows[0] {
-		r.Columns = append(r.Columns, k)
+		r.Columns = append(r.Columns, caseconvert.ToSnake(k))
 	}
 
 	insertCol := fmt.Sprintf(`(%s)`, strings.Join(r.Columns, `,`))
