@@ -1,4 +1,4 @@
-package pg
+package dbs
 
 import "github.com/Natchalit/gin-x-v1/pg"
 
