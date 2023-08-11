@@ -1,7 +1,6 @@
 package dfx
 
 import (
-	caseconvert "github.com/Natchalit/gin-x-v1/case-convert"
 	"github.com/Natchalit/gin-x-v1/ginx"
 	"github.com/go-gota/gota/dataframe"
 )
@@ -10,10 +9,6 @@ func (df *DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
 
 	if len(filters) == 0 {
 		return nil, ginx.BadRequest(`no filter`)
-	}
-	for _, f := range filters {
-		buf := caseconvert.ToSnake(f.Colname)
-		f.Colname = buf
 	}
 
 	dfx := df.Dataframe.Filter(filters...)
@@ -32,10 +27,6 @@ func (df *DataframeX) FilterAggregation(agg dataframe.Aggregation, filters ...da
 
 	if len(filters) == 0 {
 		return nil, ginx.BadRequest(`no filter`)
-	}
-
-	for _, f := range filters {
-		f.Colname = caseconvert.ToSnake(f.Colname)
 	}
 
 	dfx := df.Dataframe.FilterAggregation(agg, filters...)
