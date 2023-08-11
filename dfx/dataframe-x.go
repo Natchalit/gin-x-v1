@@ -2,6 +2,7 @@ package dfx
 
 import (
 	"github.com/Natchalit/gin-x-v1/errorx"
+	"github.com/Natchalit/gin-x-v1/ginx"
 	"github.com/go-gota/gota/dataframe"
 )
 
@@ -17,9 +18,14 @@ func LoadMaps(maps []map[string]interface{}) (*DataframeX, error) {
 }
 
 func (df *DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
+	if len(filters) == 0 {
+		return nil, ginx.BadRequest(`no filter`)
+	}
+
 	dfx := df.Dataframe.Filter(filters...)
+
 	if dfx.Err != nil {
-		return nil, errorx.BadRequest(`error filter : %s `, dfx.Error())
+		return nil, errorx.BadRequest(`error filter [%s : %s] `, dfx.Error(), filters[0].Colname)
 	}
 
 	df.Dataframe = dfx
