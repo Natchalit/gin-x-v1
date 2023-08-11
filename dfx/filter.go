@@ -12,7 +12,8 @@ func (df *DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
 		return nil, ginx.BadRequest(`no filter`)
 	}
 	for _, f := range filters {
-		f.Colname = caseconvert.ToSnake(f.Colname)
+		buf := caseconvert.ToSnake(f.Colname)
+		f.Colname = buf
 	}
 
 	dfx := df.Dataframe.Filter(filters...)
