@@ -2,6 +2,7 @@ package pg
 
 import (
 	"github.com/Natchalit/gin-x-v1/connections"
+	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
 func (c *Connect) _Connect() error {
@@ -9,7 +10,8 @@ func (c *Connect) _Connect() error {
 	if ex != nil {
 		return ex
 	}
-	dbx := db.Db
-	c.db.Db = dbx
+	c.db = &sqlx.DB{
+		Db: db.Db,
+	}
 	return nil
 }
