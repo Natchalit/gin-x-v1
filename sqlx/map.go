@@ -128,6 +128,15 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 	return &dm
 }
 
+// หาค่าคอลัมล์ case-insensitivity , snake-case
+func (m *Map) Get(col string) any {
+	if m == nil {
+		return nil
+	}
+	val := m.getCase(col)
+	return val
+}
+
 func (m *Map) Set(col string, val any) {
 	if m != nil {
 		m.setCase(col, val)
@@ -181,4 +190,16 @@ func (m *Map) DeleteKey(key string) {
 			delete(*m, k)
 		}
 	}
+}
+
+func (m *Row) LenCols() int {
+	if m == nil {
+		return 0
+	}
+
+	if len(m.Rows) == 0 {
+		return 0
+	}
+
+	return len(m.Rows[0])
 }

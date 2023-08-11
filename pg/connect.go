@@ -8,6 +8,6 @@ func (c *Connect) _Connect() error {
 		return ex
 	}
 
-	c.db = db.Db
+	c.db.Db = db.Db
 	return nil
 }

@@ -1,10 +1,10 @@
 package pg
 
 import (
-	"database/sql"
+	"github.com/Natchalit/gin-x-v1/sqlx"
 )
 
 type Connect struct {
-	db     *sql.DB
+	db     *sqlx.DB
 	DBName string
 }
