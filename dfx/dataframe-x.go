@@ -36,6 +36,6 @@ func (df *DataframeX) Select(indexes dataframe.SelectIndexes) (*DataframeX, erro
 	return df, nil
 }
 
-func (df *DataframeX) Map() []map[string]interface{} {
+func (df *DataframeX) Maps() []map[string]interface{} {
 	return df.Dataframe.Maps()
 }
