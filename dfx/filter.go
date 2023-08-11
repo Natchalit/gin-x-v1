@@ -5,7 +5,7 @@ import (
 	"github.com/go-gota/gota/dataframe"
 )
 
-func (df *DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
+func (df DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
 
 	if len(filters) == 0 {
 		return nil, ginx.BadRequest(`no filter`)
@@ -19,11 +19,11 @@ func (df *DataframeX) Filter(filters ...dataframe.F) (*DataframeX, error) {
 
 	df.Dataframe = dfx
 
-	return df, nil
+	return &df, nil
 }
 
 // agg { AND , OR }
-func (df *DataframeX) FilterAggregation(agg dataframe.Aggregation, filters ...dataframe.F) (*DataframeX, error) {
+func (df DataframeX) FilterAggregation(agg dataframe.Aggregation, filters ...dataframe.F) (*DataframeX, error) {
 
 	if len(filters) == 0 {
 		return nil, ginx.BadRequest(`no filter`)
@@ -37,10 +37,10 @@ func (df *DataframeX) FilterAggregation(agg dataframe.Aggregation, filters ...da
 
 	df.Dataframe = dfx
 
-	return df, nil
+	return &df, nil
 }
 
-func (grp *GroupX) FilterAggregation(typs []dataframe.AggregationType, colnames []string) (*DataframeX, error) {
+func (grp GroupX) FilterAggregation(typs []dataframe.AggregationType, colnames []string) (*DataframeX, error) {
 
 	dfx := grp.Group.Aggregation(typs, colnames)
 	if dfx.Err != nil {
