@@ -34,7 +34,17 @@ func (db *DB) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) {
 }
 
 func (db *DB) Query(query string, args ...any) (*sql.Rows, error) {
-	return db.Db.Query(query, args...)
+	return db.QueryContext(query, args...)
+}
+
+func (db *DB) QueryContext(query string, args ...any) (*sql.Rows, error) {
+
+	for {
+		resp, err := func() (*sql.Rows, error) {
+			return db.Db.QueryContext(context.Background(), query, args...)
+		}()
+		return resp, err
+	}
 }
 
 func (db *DB) Close() error {
