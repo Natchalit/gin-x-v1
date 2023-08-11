@@ -128,6 +128,28 @@ func DataMapToRow(mapData []map[string]interface{}) *Row {
 	return &dm
 }
 
+func RowToDataMap(row *Row) *[]map[string]interface{} {
+	dataMap := []map[string]interface{}{}
+
+	// Create a map to track column positions in the Rows
+	colIndexMap := map[string]int{}
+	for idx, col := range row.Columns {
+		colIndexMap[col] = idx
+	}
+
+	for _, rowValues := range row.Rows {
+		rowMap := map[string]interface{}{}
+		for colName, colValue := range rowValues {
+			if _, exists := colIndexMap[colName]; exists {
+				rowMap[colName] = colValue
+			}
+		}
+		dataMap = append(dataMap, rowMap)
+	}
+
+	return &dataMap
+}
+
 // หาค่าคอลัมล์ case-insensitivity , snake-case
 func (m *Map) Get(col string) any {
 	if m == nil {
